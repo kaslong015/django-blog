@@ -1,0 +1,44 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="index.html"><img src="{% static 'assets/images/logo.svg' %}" alt="Edica"></a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#edicaMainNav"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="edicaMainNav">
+        <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav mt-2 mt-lg-0">
+            {% if user.username %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="{% url 'signout' %}">Logout</a>
+                </div>
+            </li>
+
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">sign up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
