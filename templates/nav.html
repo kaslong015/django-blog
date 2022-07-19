@@ -27,6 +27,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
                     <a class="dropdown-item" href="{% url 'signout' %}">Logout</a>
                 </div>
             </li>

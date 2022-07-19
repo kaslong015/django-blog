@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from . models import *
 
 # Create your views here.
 
@@ -60,6 +61,39 @@ def signIn(request):
 
 def about(request):
     return render(request, 'core/about.html')
+
+
+def settings(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        print(request.FILES.get('image'))
+        if request.FILES.get('image') == None:
+            image = profile.image
+            firstname = request.POST['firstname']
+            lastname = request.POST['lastname']
+
+            profile.image = image
+            profile.firstname = firstname
+            profile.lastname = lastname
+
+            profile.save()
+            messages.info(request, 'profile updated successfully')
+            # return redirect('settings')
+        else:
+
+            image = request.FILES.get('image')
+            firstname = request.POST['firstname']
+            lastname = request.POST['lastname']
+
+            profile.image = image
+            profile.firstname = firstname
+            profile.lastname = lastname
+            profile.save()
+            messages.info(request, 'profile updated successfully')
+            # return redirect('settings')
+
+    return render(request, 'core/settings.html', {'profile': profile, })
 
 
 def blog(request):
