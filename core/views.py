@@ -108,9 +108,23 @@ def blog(request):
 def post_detail(request, pk):
     postDetails = Post.objects.get(id=pk)
     related_post = Post.objects.filter(user=postDetails.user)[:3:-1]
+
+    new_comment = Comment.objects.filter(post=postDetails)
+
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        user = request.user
+        post = postDetails
+
+        new_comment = Comment.objects.create(
+            comment=comment, user=user, post=post)
+        new_comment.save()
+
     context = {
         'post_details': postDetails,
-        'related_post': related_post
+        'related_post': related_post,
+        'comments': new_comment,
+        'comment_count': new_comment.count()
     }
     return render(request, 'core/blog-single.html', context)
 

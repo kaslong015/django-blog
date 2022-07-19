@@ -15,7 +15,7 @@
         <h4 class="edica-page-title" data-aos="fade-up">{{post_details.title}}</h4>
         <p class="edica-blog-post-meta" data-aos="fade-up" data-aos-delay="200">Written by
             <a href="#">{{post_details.user.username}}</a> • {{post_details.created_at | date:"D d M Y"}},
-            {{ post_details.created_at|time:"h:i A" }} • 4 Comments
+            {{ post_details.created_at|time:"h:i A" }} • {{comment_count}} Comment{{comment_count|pluralize}}
         </p>
         <section class="blog-post-featured-img" data-aos="fade-up" data-aos-delay="300">
             <img src="{{post_details.blog_image.url}}" height="500px" alt="featured image" class="h-[300px] w-100">
@@ -25,6 +25,29 @@
                 <div class="col-lg-9 mx-auto" data-aos="fade-up">
                     <h4>{{post_details.title}}</h4>
                     <p>{{post_details.content}}</p>
+                </div>
+                <div class="col-lg-9 mx-auto" data-aos="fade-up">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <textarea name="comment" rows="5" cols="50" class="form-control"
+                            placeholder="comment"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-success btn-md">submit</button>
+                    </form>
+                </div>
+                <div class="col-lg-9 mx-auto" data-aos="fade-up">
+                    {% for comment in comments %}
+                    <p
+                        style="border-radius:10px; font-size:15px;padding:10px;border:1px solid white;margin-top:15px; box-shadow: 4px 4px 4px 4px #F5F5F5">
+                        <span>
+                            <span><b>{{comment.user}}</b></span><small> {{comment.created_at | timesince }}
+                                ago</small><br>
+                        </span>
+                        {{comment.comment}}
+                    </p>
+                    {% endfor %}
+
+
                 </div>
             </div>
 
@@ -90,9 +113,9 @@
         <div class="footer-banner" data-aos="fade-up">
             <h1 class="banner-title">Download it now.</h1>
             <div class="banner-btns-wrapper">
-                <button class="btn btn-success"> <img src="assets/images/apple@1x.svg" alt="ios" class="mr-2"> App
+                <button class="btn btn-success"> <img src="#" alt="ios" class="mr-2"> App
                     Store</button>
-                <button class="btn btn-success"> <img src="assets/images/android@1x.svg" alt="android" class="mr-2">
+                <button class="btn btn-success"> <img src="#" alt="android" class="mr-2">
                     Google Play</button>
             </div>
             <p class="banner-text">Add some helper text here to explain the finer details of your <br> product or
@@ -105,7 +128,7 @@
         <div class="row footer-widget-area">
             <div class="col-md-3">
                 <a href="index.html" class="footer-brand-wrapper">
-                    <img src="assets/images/logo.svg" alt="edica logo">
+                    <img src="#" alt="edica logo">
                 </a>
                 <p class="contact-details">hello@edica.com</p>
                 <p class="contact-details">+23 3000 000 00</p>
