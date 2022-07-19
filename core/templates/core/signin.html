@@ -32,12 +32,13 @@
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="{% static 'auth/images/img-01.png' %}" alt="IMG">
 				</div>
-				{% for message in messages %}
-				<p> {{ message }}</p>
-				{%endfor %}
+
 				<form action="" method="POST" class="login100-form validate-form">
 					<span class="login100-form-title">
 						Member Login
+						{% for message in messages %}
+						<p> {{ message }}</p>
+						{%endfor %}
 					</span>
 					{% csrf_token %}
 					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
