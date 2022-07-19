@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
@@ -97,7 +98,21 @@ def settings(request):
 
 
 def blog(request):
-    return render(request, 'core/blog.html')
+    blog_post = Post.objects.all().order_by('created_at').reverse()
+    context = {
+        'blog_post': blog_post
+    }
+    return render(request, 'core/blog.html', context)
+
+
+def post_detail(request, pk):
+    postDetails = Post.objects.get(id=pk)
+    related_post = Post.objects.filter(user=postDetails.user)[:3:-1]
+    context = {
+        'post_details': postDetails,
+        'related_post': related_post
+    }
+    return render(request, 'core/blog-single.html', context)
 
 
 def contact(request):

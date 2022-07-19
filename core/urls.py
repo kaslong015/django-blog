@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path
 from . import views
 
@@ -9,5 +10,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signIn, name="signin"),
     path('signout', views.signOut, name='signout'),
-    path('settings/', views.settings, name='settings')
+    path('settings/', views.settings, name='settings'),
+    path('post/<str:pk>/', views.post_detail, name='post_detail')
 ]
