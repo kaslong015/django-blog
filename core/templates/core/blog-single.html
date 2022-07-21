@@ -15,7 +15,7 @@
         <h4 class="edica-page-title" data-aos="fade-up">{{post_details.title}}</h4>
         <p class="edica-blog-post-meta" data-aos="fade-up" data-aos-delay="200">Written by
             <a href="#">{{post_details.user.username}}</a> • {{post_details.created_at | date:"D d M Y"}},
-            {{ post_details.created_at|time:"h:i A" }} • {{comment_count}} Comment{{comment_count|pluralize}}
+            {{ post_details.created_at|time:"h:i A" }} • {{ comment_count.count }} Comment{{comment_count.count | pluralize}}
         </p>
         <section class="blog-post-featured-img" data-aos="fade-up" data-aos-delay="300">
             <img src="{{post_details.blog_image.url}}" height="500px" alt="featured image" class="h-[300px] w-100">
@@ -37,14 +37,22 @@
                 </div>
                 <div class="col-lg-9 mx-auto" data-aos="fade-up">
                     {% for comment in comments %}
-                    <p
+                    <div
                         style="border-radius:10px; font-size:15px;padding:10px;border:1px solid white;margin-top:15px; box-shadow: 4px 4px 4px 4px #F5F5F5">
                         <span>
                             <span><b>{{comment.user}}</b></span><small> {{comment.created_at | timesince }}
                                 ago</small><br>
                         </span>
                         {{comment.comment}}
-                    </p>
+                        <br>
+                        {% if comment.user == request.user %}
+                        <form action="{% url 'delete-comment' comment.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="post-id" value="{{post_details.id}}">
+                            <button type="submit" class="btn btn-primary btn-sm" href="">delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
                     {% endfor %}
 
 

@@ -109,8 +109,6 @@ def post_detail(request, pk):
     postDetails = Post.objects.get(id=pk)
     related_post = Post.objects.filter(user=postDetails.user)[:3:-1]
 
-    new_comment = Comment.objects.filter(post=postDetails)
-
     if request.method == 'POST':
         comment = request.POST['comment']
         user = request.user
@@ -120,13 +118,21 @@ def post_detail(request, pk):
             comment=comment, user=user, post=post)
         new_comment.save()
 
+    new_comment = Comment.objects.filter(post=postDetails)
+
     context = {
         'post_details': postDetails,
         'related_post': related_post,
         'comments': new_comment,
-        'comment_count': new_comment.count()
+        'comment_count': new_comment
     }
     return render(request, 'core/blog-single.html', context)
+
+
+def deleteComment(request, pk):
+    comment = Comment.objects.get(id=pk)
+    comment.delete()
+    return redirect('post_detail', pk=request.POST['post-id'])
 
 
 def contact(request):
